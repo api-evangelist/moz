@@ -1,0 +1,119 @@
+{
+    "name": "Moz",
+    "description": "Backed by the largest community of SEOs on the planet, Moz builds tools that make SEO, inbound marketing, link building, and content marketing easy. Start your free 30-day trial today!",
+    "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/473-seomoz.jpg",
+    "tags": [
+        "analysis",
+        "api provider",
+        "api united kingdom",
+        "have api",
+        "search"
+    ],
+    "created": "2019-12-19",
+    "modified": "2019-12-19",
+    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/moz\/master\/apis.json",
+    "specificationVersion": "0.14",
+    "apis": [
+        {
+            "name": "Moz",
+            "description": null,
+            "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/473-seomoz.jpg",
+            "humanURL": "http:\/\/www.seomoz.org",
+            "baseURL": "",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "x-openapi",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/moz-openapi.json"
+                }
+            ]
+        }
+    ],
+    "include": [],
+    "x-common": [
+        {
+            "type": "Base",
+            "url": "http:\/\/lsapi.seomoz.com\/linkscape"
+        },
+        {
+            "type": "Blog",
+            "url": "http:\/\/moz.com\/blog"
+        },
+        {
+            "type": "Blog RSS",
+            "url": "http:\/\/feeds.feedburner.com\/mozblog"
+        },
+        {
+            "type": "Crunchbase",
+            "url": "http:\/\/www.crunchbase.com\/company\/seomoz"
+        },
+        {
+            "type": "Crunchbase",
+            "url": "https:\/\/crunchbase.com\/organization\/moz"
+        },
+        {
+            "type": "Developers",
+            "url": "http:\/\/moz.com\/products\/api"
+        },
+        {
+            "type": "Email",
+            "url": "legal@moz.com"
+        },
+        {
+            "type": "Email",
+            "url": "help@moz.com"
+        },
+        {
+            "type": "Email",
+            "url": "adam@moz.com"
+        },
+        {
+            "type": "Email",
+            "url": "david@moz.com"
+        },
+        {
+            "type": "Email",
+            "url": "drewh@moz.com"
+        },
+        {
+            "type": "Email",
+            "url": "peter@moz.com"
+        },
+        {
+            "type": "Email",
+            "url": "jacobb@moz.com"
+        },
+        {
+            "type": "Email",
+            "url": "jamiek@moz.com"
+        },
+        {
+            "type": "Email",
+            "url": "jasonh@moz.com"
+        },
+        {
+            "type": "Email",
+            "url": "kiki@moz.com"
+        },
+        {
+            "type": "Github",
+            "url": "https:\/\/github.com\/seomoz"
+        },
+        {
+            "type": "Pricing",
+            "url": "https:\/\/moz.com\/products\/pro\/pricing"
+        },
+        {
+            "type": "Twitter",
+            "url": "https:\/\/twitter.com\/seomoz"
+        },
+        {
+            "type": "Twitter",
+            "url": "https:\/\/twitter.com\/Moz"
+        },
+        {
+            "type": "Website",
+            "url": "http:\/\/www.seomoz.org"
+        }
+    ]
+}
