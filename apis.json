@@ -9,8 +9,8 @@
         "have api",
         "search"
     ],
-    "created": "2019-12-19",
-    "modified": "2019-12-19",
+    "created": "2019-12-21",
+    "modified": "2019-12-21",
     "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/moz\/master\/apis.json",
     "specificationVersion": "0.14",
     "apis": [
@@ -24,13 +24,17 @@
             "properties": [
                 {
                     "type": "x-openapi",
-                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/moz-openapi.json"
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/moz\/master\/moz-openapi.json"
                 }
             ]
         }
     ],
     "include": [],
     "x-common": [
+        {
+            "type": "APIs.json",
+            "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/apis.json"
+        },
         {
             "type": "Base",
             "url": "http:\/\/lsapi.seomoz.com\/linkscape"
