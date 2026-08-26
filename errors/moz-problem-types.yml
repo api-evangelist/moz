@@ -1,0 +1,87 @@
+generated: '2026-08-26'
+method: probed
+source: https://moz.com/api/docs/guides/error-handling
+docs: https://moz.com/api/docs/guides/error-handling
+format: jsonrpc-2.0-error
+rfc9457: false
+summary: >-
+  The Moz API returns JSON-RPC 2.0 error objects alongside a matching HTTP status code. It does not
+  use RFC 9457 problem+json. Every error body echoes the client-supplied id and the jsonrpc version,
+  and carries an error object with an internal numeric code, the HTTP status, a human message, and -
+  for richer validation failures - a data object with explanation, issue and key fields naming the
+  offending request component.
+envelope:
+  content_type: application/json
+  shape:
+    id: Echo of the client-provided request id
+    jsonrpc: '2.0'
+    error:
+      code: Internal Moz API error code (negative integer, JSON-RPC style)
+      status: HTTP status code
+      message: Human-readable message, or resolution instructions
+      data:
+        explanation: Why the error occurred
+        issue: Family of error (machine-readable slug)
+        key: The request component that caused the error
+  inconsistency: >-
+    Observed 2026-08-26: most errors carry the HTTP status under error.status, but the JSON-RPC
+    version-validation error (-32600) carries it under error.httpStatus instead. A client parsing
+    only error.status will read undefined on that one case.
+problem_types:
+- code: -32600
+  http_status: 400
+  title: Invalid JSON-RPC envelope
+  message: 'jsonrpc must be "2.0"'
+  remediation: Set the top-level "jsonrpc" field to the string "2.0" on every request.
+  evidence: 'probed 2026-08-26, POST https://api.moz.com/jsonrpc with jsonrpc "1.0"'
+  note: This error returns the HTTP status under error.httpStatus, not error.status.
+- code: -32601
+  http_status: 400
+  title: Action not found
+  message: 'Action not found: <ActionName>'
+  remediation: >-
+    Check the method name against the documented dot-notation methods; the message echoes the
+    camel-case action Moz resolved the name to.
+  evidence: 'probed 2026-08-26, POST https://api.moz.com/jsonrpc method "no.such.method"'
+- code: -32651
+  http_status: 401
+  title: Missing or invalid authentication
+  message: Missing or invalid authentication
+  remediation: >-
+    Supply a valid Moz API token in the x-moz-token header. Tokens are issued at
+    https://moz.com/api/dashboard; up to 5 may be active per account.
+  evidence: 'probed 2026-08-26, POST https://api.moz.com/jsonrpc with no x-moz-token header'
+- code: -32652
+  http_status: 400
+  title: Required parameter missing
+  message: Please include a <param>.
+  issue: param-is-missing
+  data_fields: [explanation, issue, key]
+  remediation: >-
+    Add the parameter named in error.data.key to params.data. The key field is the machine-readable
+    pointer at the offending field.
+  evidence: 'probed 2026-08-26, data.site.metrics.fetch with empty params.data'
+- code: -32654
+  http_status: 400
+  title: Request id too short
+  message: Minimum Request ID length is 24.
+  remediation: >-
+    The JSON-RPC "id" is a client-generated request identifier (not the API token) and must be at
+    least 24 characters. Moz recommends a v4 UUID.
+  evidence: 'probed 2026-08-26, POST https://api.moz.com/jsonrpc with id "1"'
+error_families_documented:
+- param-is-missing
+- interdependent-parameters
+rate_limit_error:
+  see: rate-limits/moz-rate-limits.yml
+  documented: >-
+    More than 50 requests in a 5-minute period that result in a 4xx code triggers rate limiting to
+    50 total requests per 5 minutes; the limit lifts after 30 seconds without a 4xx response.
+gaps:
+- >-
+  Moz publishes no complete error-code registry - the error-handling guide documents the envelope
+  and gives one worked example, but does not enumerate the -326xx codes. The codes recorded above
+  were observed on live anonymous probes, not read from a published table.
+- >-
+  No Retry-After or RateLimit-* response headers were observed on any probed response, so a client
+  cannot detect throttling from headers alone.

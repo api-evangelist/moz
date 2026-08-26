@@ -1,0 +1,54 @@
+generated: '2026-08-26'
+method: searched
+source: https://moz.com/api/docs/guides/error-handling
+docs: https://moz.com/api/docs/guides/error-handling
+pricing_docs: https://moz.com/products/api/pricing
+summary: >-
+  Moz meters the API two ways: a monthly row-based quota tied to the subscription tier, and a
+  penalty rate limit that only engages after repeated 4xx responses. The free tier additionally
+  carries a hard request-rate cap of one request every ten seconds.
+limit_count: 3
+rate_limits:
+- id: error-penalty-rate-limit
+  scope: per-key
+  window: 5 minutes
+  limit: 50
+  trigger: >-
+    Engages once more than 50 requests in a 5-minute period return a 4xx error code. Once engaged,
+    the caller is limited to 50 total requests per 5-minute period.
+  reset: The limit is lifted after 30 seconds without receiving a 4xx response.
+  source: https://moz.com/api/docs/guides/error-handling
+- id: free-tier-request-rate
+  scope: per-account
+  window: 10 seconds
+  limit: 1
+  applies_to: Free tier
+  note: '"Free access allows for one request every ten seconds, up to 50 rows per month."'
+  source: https://moz.com/products/api/pricing
+- id: monthly-row-quota
+  scope: per-account
+  window: 1 month
+  limit: varies by tier (50 rows free, up to 4,000,000 rows on Advanced)
+  unit: rows
+  note: >-
+    Quota is measured in rows - typically one row per object in a multi-object response, or one row
+    per field for a flat single-object response. Consumption is reported in the response body of
+    every call, and remaining quota is readable with the quota.lookup method
+    (path api.limits.data.rows). Beta methods draw on a separate beta quota that does not reduce the
+    main plan or incur overages.
+  source: https://moz.com/api/docs/guides/getting-started
+response_headers:
+  observed: []
+  note: >-
+    Probed anonymously 2026-08-26 against https://api.moz.com/jsonrpc. No X-RateLimit-*,
+    RateLimit-* or Retry-After headers were present on 200/400/401 responses. Moz surfaces quota
+    consumption in the JSON response body instead of in headers, which means an agent cannot detect
+    remaining budget or throttle state from response metadata alone.
+  headers_present_unrelated: [x-service-name, x-service-version, x-pylon-action]
+exhaustion:
+  status_code: 4xx (the error-handling guide does not name a specific status for quota exhaustion)
+  quota_lookup_method: quota.lookup
+  overages: >-
+    Some tiers include pay-as-you-go overages ($5 per 1,000 rows on Starter Large; $25/$20/$10 per
+    10,000 rows across the Growth tiers; $5 per 10,000 rows on Advanced). Starter Medium has no
+    overage option.

@@ -1,0 +1,52 @@
+generated: '2026-08-26'
+method: probed
+source: live GET probes of /.well-known/* on every Moz API host
+note: >-
+  moz.com serves a real RFC 9116 security.txt. api.moz.com serves RFC 8414 OAuth authorization
+  server metadata and RFC 9728 OAuth protected-resource metadata for each of the two beta MCP
+  endpoints; note the protected-resource documents are only served at the per-resource paths
+  (/.well-known/oauth-protected-resource/mcp/v1/{data,local}), not at the bare
+  /.well-known/oauth-protected-resource root, which 404s.
+hosts:
+- host: moz.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: well-known/moz-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: api.moz.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: well-known/moz-api-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource/mcp/v1/data
+    status: 200
+    file: well-known/moz-api-oauth-protected-resource-mcp-data.json
+  - path: /.well-known/oauth-protected-resource/mcp/v1/local
+    status: 200
+    file: well-known/moz-api-oauth-protected-resource-mcp-local.json
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404

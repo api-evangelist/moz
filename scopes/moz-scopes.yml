@@ -1,0 +1,27 @@
+generated: '2026-08-26'
+method: probed
+source: https://api.moz.com/.well-known/oauth-protected-resource/mcp/v1/data
+docs: https://moz.com/api/docs/guides/mcp-servers
+summary: >-
+  Moz declares a single OAuth scope, "mcp", in both the authorization-server metadata and each MCP
+  endpoint's protected-resource metadata. There is no per-resource or per-method scope vocabulary;
+  authorization granularity comes from the subscription attached to the account, not from scopes.
+authorization_server: https://api.moz.com
+applies_to:
+- https://api.moz.com/mcp/v1/data
+- https://api.moz.com/mcp/v1/local
+scope_count: 1
+scopes:
+- name: mcp
+  description: >-
+    Access to the Moz MCP surface for the authenticated account. Declared in
+    scopes_supported on both /.well-known/oauth-authorization-server and each
+    /.well-known/oauth-protected-resource/mcp/v1/* document.
+  source: RFC 8414 + RFC 9728 metadata, probed 2026-08-26
+notes:
+- >-
+  The JSON-RPC API at https://api.moz.com/jsonrpc is API-key authenticated and has no scope surface
+  at all - see authentication/moz-authentication.yml.
+- >-
+  Because the beta restricts MCP access to account owners, an MCP token today carries whatever the
+  owner's subscription carries; Moz documents no read-only or per-product scope split.

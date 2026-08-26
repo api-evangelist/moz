@@ -1,0 +1,20 @@
+generated: '2026-08-26'
+method: probed
+source: live probes of moz.com trust/compliance surfaces
+published: false
+trust_center_url: null
+certifications: []
+probed:
+- url: https://trust.moz.com/
+  status: 000
+  note: host does not resolve
+- url: https://moz.com/trust
+  status: 404
+- url: https://moz.com/legal
+  status: 404
+checked: '2026-08-26'
+note: >-
+  No trust center, security-compliance page, or named certification (SOC 2, ISO 27001, PCI DSS,
+  HIPAA, FedRAMP) could be found on any Moz surface. Recorded as an honest absence; no TrustCenter
+  or Compliance pointer is emitted in apis.yml, because emitting one would assert a program Moz
+  does not publish.

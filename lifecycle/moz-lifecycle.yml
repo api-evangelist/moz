@@ -1,0 +1,71 @@
+generated: '2026-08-26'
+method: searched
+source: https://moz.com/api/docs/guides/getting-started
+docs: https://moz.com/api/docs/guides/getting-started
+versioning:
+  scheme: unversioned
+  current_version: none - the API carries no version identifier in the URL, headers or method names
+  statement: >-
+    "The API is currently not versioned, with no expected breaking changes except for endpoints
+    marked as beta. Beta endpoints should not be relied upon for critical purposes, as they may
+    undergo modifications or removal without prior notice."
+  in_transition: >-
+    The welcome page states the API is "currently transitioning between versions", and that
+    documentation for several link and site endpoints (links and linking root domains, anchor text,
+    final redirect, global top pages and root domains, link status, and top pages) is only available
+    via the legacy version of the documentation. Both the current and legacy surfaces are live.
+  index_versioning:
+    method: metadata.index.fetch
+    note: >-
+      The Moz Link Index itself is versioned by index ID, readable through metadata.index.fetch;
+      this is data-currency versioning, not contract versioning.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    Moz publishes no deprecation policy, no notice period, and no Sunset/Deprecation response
+    headers. The only change-notice language is the beta disclaimer - beta methods "are subject to
+    change or removal without notice at any time". The 62 public methods declare no deprecated flag
+    in json-schema/moz-api-schema.json.
+  legal: https://moz.com/api/docs/guides/getting-started
+beta_program:
+  eligibility: Starter Medium plan ($20/mo) and above
+  quota: separate beta quota that does not reduce the main plan or incur overages
+  restrictions: >-
+    Data or functionality accessed through beta methods may only be used for prototyping or internal
+    business services.
+  current_betas:
+  - Moz MCP servers (Data and Local) - access limited to account owners
+  - Brand Authority fetch (a BetaDataSiteMetricsBrandAuthorityFetchAction appears in the schema's
+    all_actions list alongside the public action)
+status_page:
+  published: false
+  probed:
+  - url: https://status.moz.com/
+    status: 000 (host does not resolve)
+    checked: '2026-08-26'
+  note: >-
+    No status or uptime page could be found on moz.com or a status subdomain. No StatusPage pointer
+    is emitted, because none is served.
+sla:
+  published: false
+  note: No public SLA or uptime commitment is documented for the Moz API.
+changelog:
+  published: false
+  probed:
+  - url: https://moz.com/api/docs/changelog
+    status: 404
+  - url: https://moz.com/help/release-notes
+    status: 000
+  - url: https://moz.com/new-releases
+    status: 404
+  note: >-
+    The site's main navigation carries a "New Releases" item for the Moz product suite, but no
+    dated changelog or release-notes page for the API could be reached; the API docs site has no
+    changelog section. No ChangeLog pointer is emitted.
+support:
+  help_hub: https://moz.com/help
+  community: https://moz.com/community
+  api_dashboard: https://moz.com/api/dashboard

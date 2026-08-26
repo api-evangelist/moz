@@ -1,0 +1,202 @@
+generated: '2026-08-26'
+method: derived
+source: json-schema/moz-api-schema.json
+docs: https://moz.com/api/docs
+summary: >-
+  Derived from the 930 JSON Schema definitions Moz's own documentation application serves. The model
+  splits cleanly in two: a read-only analytics graph in the "data" namespace, keyed on a site query
+  rather than on issued identifiers, and a conventional CRUD graph in the "local" namespace keyed on
+  numeric account / group / location ids. There is no cross-namespace foreign key - a Moz Local
+  location and a Moz Data site are not joined by the API.
+identifier_style:
+  data_namespace: >-
+    No object ids. The primary key is a DataSiteQueryInput (a query string plus a scope of page,
+    subdomain or domain), and Moz echoes the parsed DataSiteQueryObject back on every response so a
+    caller can see how its input was interpreted. Keyword records are keyed on a DataSerpQueryObject
+    (keyword + locale + device + engine + vicinity).
+  local_namespace: >-
+    Integer/opaque ids - LocationId, AccountId, GroupId - plus remote_id and remote_network_id
+    fields carrying the identifier held by the downstream listing network.
+  no_prefixed_ids: >-
+    Moz does not use type-prefixed identifiers (no "loc_", "acct_" style); ids are bare.
+entities:
+- name: DataSiteQuery
+  schema: DataSiteQueryObject
+  namespace: data
+  role: primary key of the entire Data namespace
+  fields: [query, scope, original_site_query, site_query_suggestion]
+  scopes: [page, subdomain, domain]
+- name: DataSiteMetrics
+  schema: DataSiteMetricsObject
+  namespace: data
+  field_count: 52
+  role: the central record - link counts and authority metrics for one page/subdomain/root domain
+  key_fields:
+  - page
+  - subdomain
+  - root_domain
+  - title
+  - last_crawled
+  - http_code
+  - page_authority
+  - domain_authority
+  - link_propensity
+  - spam_score
+  field_families:
+  - '*_to_page / *_to_subdomain / *_to_root_domain - inbound link counts at each scope'
+  - '*_from_page / *_from_root_domain - outbound link counts'
+  - 'nofollow_ / redirect_ / external_ / indirect_ / deleted_ prefixes qualify each count'
+- name: DataSiteLink
+  schema: DataSiteLinkObject
+  namespace: data
+  description: A single link to the target.
+  fields: [source_site_metrics, target_site_metrics, anchor_text, date_first_seen, date_last_seen,
+    date_disappeared, nofollow, redirect, rel_canonical, via_redirect, via_rel_canonical]
+- name: DataSiteLinkingDomain
+  schema: DataSiteLinkingDomainObject
+  namespace: data
+  description: A single linking root domain to the target.
+  fields: [site_metrics, link_propensity, targeted_pages, targeted_nofollow_pages,
+    targeted_redirect_pages, targeted_deleted_pages]
+  variants: [DataSiteLinkingDomainGainedObject, DataSiteLinkingDomainLostObject]
+- name: DataSiteAnchorText
+  schema: DataSiteAnchorTextObject
+  namespace: data
+  fields: [text, external_root_domains, external_pages]
+- name: DataSerpQuery
+  schema: DataSerpQueryObject
+  namespace: data
+  fields: [keyword, locale, device, engine, vicinity]
+- name: DataKeywordMetrics
+  schema: DataKeywordMetricsObject
+  namespace: data
+  fields: [volume, difficulty, organic_ctr, priority]
+  facets: [DataKeywordMetricsVolumeObject, DataKeywordMetricsDifficultyObject,
+    DataKeywordMetricsOpportunityObject, DataKeywordMetricsPriorityObject]
+  note: 'A null value means the metric could not be calculated when the keyword was last collected.'
+- name: DataKeywordSearchIntent
+  schema: DataKeywordSearchIntentObject
+  namespace: data
+- name: DataKeywordSuggestion
+  schema: DataKeywordSuggestionObject
+  namespace: data
+- name: DataSiteRankingKeyword
+  schema: DataSiteRankingKeywordObject
+  namespace: data
+  fields: [keyword, ranking_page, rank_position, difficulty, volume]
+- name: LocalAccount
+  schema: LocalAccountObject
+  namespace: local
+  fields: [id, name]
+- name: LocalGroup
+  schema: LocalGroupObject
+  namespace: local
+  fields: [id, name, account_id]
+- name: LocalLocation
+  schema: LocalLocationObject
+  namespace: local
+  field_count: 38
+  fields: [id, level, status, account_id, auto_sync_enabled, remote_id, listings_name,
+    location_name, website_url, email_address, timezone, store_code, tagline, short_description,
+    long_description, languages, keywords, brands, payment_forms, price_range, service_areas,
+    service_area_only, services, primary_category, additional_categories, attributes, address,
+    lat, long, opening_status, reopen_date, hours, more_hours, opening_hours_notes, opening_date,
+    special_hours, phone, fax]
+- name: LocalLocationListing
+  schema: LocalLocationListingObject
+  namespace: local
+  fields: [name, status, url]
+- name: LocalNetwork
+  schema: LocalNetworkObject
+  namespace: local
+  fields: [type, id, name, remote_network_id, picture, profile_url, error]
+- name: LocalNetworkFieldStatus
+  schema: LocalNetworkFieldStatusObject
+  namespace: local
+- name: LocalNetworkFieldIssue
+  schema: LocalNetworkFieldIssueObject
+  namespace: local
+- name: LocalGridHistory
+  schema: LocalGridHistoryObject
+  namespace: local
+  children: [LocalGridHistoryGridObject, LocalGridHistoryDotObject]
+- name: LocalNetworkInsightGbpImpression
+  schema: LocalNetworkInsightGbpImpressionObject
+  namespace: local
+  related: [LocalNetworkInsightGbpImpressionHistoryObject, LocalNetworkInsightGbpImpressionTotalObject,
+    LocalNetworkInsightGbpImpressionKeywordTotalObject, LocalNetworkInsightGbpLeadHistoryObject]
+- name: Quota
+  schema: QuotaObject
+  namespace: quota
+  fields: [path, account_id, allotted, used, report, reset, overage, period_start, period_reset]
+  children: [QuotaUsageObject, QuotaUsageReportObject, QuotaUsageReportPeriodObject]
+relationships:
+- from: DataSiteLink
+  to: DataSiteMetrics
+  type: has_one
+  via: source_site_metrics
+  evidence: '$ref DataSiteMetricsObject'
+- from: DataSiteLink
+  to: DataSiteMetrics
+  type: has_one
+  via: target_site_metrics
+  evidence: '$ref DataSiteMetricsObject'
+- from: DataSiteLinkingDomain
+  to: DataSiteMetrics
+  type: has_one
+  via: site_metrics
+  evidence: '$ref DataSiteMetricsObject'
+- from: DataSiteQuery
+  to: DataSiteQueryInput
+  type: has_one
+  via: original_site_query
+  evidence: '$ref DataSiteQueryInput - the unparsed query the caller supplied'
+- from: LocalGroup
+  to: LocalAccount
+  type: belongs_to
+  via: account_id
+  evidence: 'GroupAccountId field on LocalGroupObject'
+- from: LocalLocation
+  to: LocalAccount
+  type: belongs_to
+  via: account_id
+  evidence: 'LocationAccountId field on LocalLocationObject'
+- from: LocalGroup
+  to: LocalLocation
+  type: has_many
+  via: 'local.group.location.add / .remove / .list'
+  evidence: 'membership is managed by method, not by a field on either object'
+- from: LocalLocation
+  to: LocalLocationListing
+  type: has_many
+  via: local.location.listing.list
+- from: LocalLocation
+  to: LocalNetwork
+  type: has_many
+  via: local.location.network.list
+- from: LocalNetwork
+  to: LocalNetworkFieldStatus
+  type: has_many
+  via: local.location.network.field.status.list
+- from: LocalNetwork
+  to: LocalNetworkFieldIssue
+  type: has_many
+  via: local.location.network.field.issue.list
+- from: Quota
+  to: LocalAccount
+  type: belongs_to
+  via: account_id
+counts:
+  total_definitions: 930
+  object_definitions: 73
+  public_actions: 62
+  all_actions: 74
+gaps:
+- >-
+  Moz publishes no object-reference or ERD page; this model is derived entirely from the schema the
+  docs app serves, not from prose documentation.
+- >-
+  The "mozbar" and "async" namespaces appear in the schema (MozbarPageOverviewObject,
+  MozbarPageDetailObject, MozbarPageKeywordReportObject, AsyncCallObject, AsyncCallLookupAction,
+  DataPingAsyncAction) but carry no publicly documented methods - they are in all_actions and not in
+  public_actions.

@@ -1,0 +1,161 @@
+generated: '2026-08-26'
+method: searched
+source: https://moz.com/api/docs/guides/getting-started
+docs:
+- https://moz.com/api/docs/guides/getting-started
+- https://moz.com/api/docs/guides/authentication
+- https://moz.com/api/docs/guides/error-handling
+summary: >-
+  Moz is not a REST API. It is a JSON-RPC 2.0 API with one universal endpoint and a method name in
+  the body, so almost every REST convention (path-based resources, HTTP verbs, status-carrying
+  responses, header-based metadata) is absent by design. The conventions below record what Moz
+  actually does instead.
+interface_style: json-rpc-2.0
+transport:
+  endpoint: https://api.moz.com/jsonrpc
+  http_method: POST
+  content_type: application/json
+  note: >-
+    Moz's own docs are explicit that it has methods, not endpoints - "a distinct URL + HTTP method
+    which corresponds with some action on a resource" does not exist here.
+authentication:
+  style: api-key-header
+  header: x-moz-token
+  see: authentication/moz-authentication.yml
+request:
+  required_fields: [jsonrpc, id, method, params]
+  jsonrpc: must be the string "2.0"
+  id:
+    type: client-generated string
+    constraint: minimum 24 characters
+    recommended: v4 UUID
+    purpose: JSON-RPC request correlation and batching support
+    warning: >-
+      The id is NOT the Moz API token. Sending a short id returns error -32654 before any work is
+      done.
+  params:
+    shape: 'params.data always wraps the method-specific body: parameters, sorts and filters'
+method_naming:
+  pattern: '<namespace>.<resource>[.<sub-resource>].<verb>'
+  verbs: [fetch, list, count, create, update, lookup, cancel, close, add, remove, filter]
+  modifiers: 'adjective/adverb style modifiers may be appended, e.g. recently-gained.list, filter.domain'
+  namespaces: [data, local, metadata, quota, mozbar, async]
+  public_method_count: 62
+  catalog: json-schema/moz-api-schema.json
+response:
+  success_shape:
+    id: echo of the request id
+    jsonrpc: '2.0'
+    result: 'the requested data, an echo of the original request, and a report on quota consumed'
+  error_shape:
+    see: errors/moz-problem-types.yml
+pagination:
+  style: options-object
+  note: >-
+    List methods take an options object in params.data carrying limit/offset-style controls; the
+    schema exposes DataOffsetObject, DataPageObject and per-method *ListOptionsObject definitions
+    (DataSiteLinkListOptionsObject, DataSiteLinkingDomainListOptionsObject,
+    DataSiteRankingKeywordListOptionsObject, DataSiteTopPageListOptionsObject,
+    DataKeywordSuggestionsOptionsObject). There is no Link header, cursor token or envelope-level
+    next/prev - pagination is per-method and lives in the request body.
+  source: json-schema/moz-api-schema.json
+field_expansion: none documented
+metadata_fields: none documented
+request_id_tracing:
+  client_supplied: 'the JSON-RPC id (>= 24 chars) is echoed on both success and error responses'
+  server_supplied:
+    headers_observed: [x-service-name, x-service-version, x-pylon-action]
+    note: >-
+      Probed 2026-08-26: responses carry the internal service name/version and the resolved action
+      name, but no correlation/trace id header is returned for support escalation.
+versioning:
+  scheme: unversioned
+  statement: >-
+    "The API is currently not versioned, with no expected breaking changes except for endpoints
+    marked as beta."
+  see: lifecycle/moz-lifecycle.yml
+error_envelope:
+  format: jsonrpc-2.0-error
+  rfc9457: false
+  see: errors/moz-problem-types.yml
+rate_limit_signaling:
+  headers: none
+  see: rate-limits/moz-rate-limits.yml
+  note: quota consumption is reported in the response body, not in headers
+idempotency:
+  supported: false
+  header: none
+  grade: na
+  note: >-
+    Moz publishes no idempotency key, no request-replay window and no deduplication semantics. The
+    JSON-RPC id is a correlation identifier only - nothing in the docs says a repeated id is
+    de-duplicated. The read-heavy Data namespace is naturally idempotent (all fetch/list/count), but
+    the Local namespace does carry create/update/add/remove methods where a retried call could
+    duplicate an effect, and Moz documents no protection for that case.
+dry_run_mode:
+  supported: false
+  grade: na
+  note: No preview, validate-only or test-mode flag is documented on any method.
+reversibility:
+  grade: documented
+  overall_note: >-
+    The Data namespace is read-only, so reversibility is not applicable there. The Local namespace
+    has a real write surface, and Moz ships explicit reversal-shaped methods for the two most
+    consequential actions - but it publishes no time window for any of them, so an agent can learn
+    that an action is undoable without learning for how long. Nothing below asserts a window Moz
+    does not state.
+  surfaces:
+  - write_operation: local.location.create
+    description: Creates a new location.
+    reversal_operation: local.location.cancel
+    reversal_description: Cancel a specific location by ID.
+    window: not stated in the published documentation
+    grade: documented
+    docs: https://moz.com/api/docs/methods/LocalLocationCancelAction
+  - write_operation: local.location.create
+    description: Creates a new location.
+    reversal_operation: local.location.close
+    reversal_description: >-
+      Closes a location, setting its status to closed and opening status to permanently closed.
+    window: not stated in the published documentation
+    grade: documented
+    note: >-
+      "Permanently closed" is the location's own business status, not a statement about the API
+      record; Moz does not document whether a closed location can be reopened via the API.
+    docs: https://moz.com/api/docs/methods/LocalLocationCloseAction
+  - write_operation: local.group.location.add
+    description: Add a location to a group.
+    reversal_operation: local.group.location.remove
+    reversal_description: Remove a location from a group.
+    window: no window applies - membership is toggleable
+    grade: documented
+    docs: https://moz.com/api/docs/methods/LocalGroupLocationRemoveAction
+  - write_operation: local.location.update
+    description: Update a single location.
+    reversal_operation: none published
+    window: not applicable
+    grade: none
+    note: >-
+      No revision history, restore or rollback method exists; reverting an update means re-sending
+      the prior values, which the caller must have retained.
+  - write_operation: local.location.level.update
+    description: Updates the tier of service for a single location.
+    reversal_operation: local.location.level.update
+    window: not stated in the published documentation
+    grade: documented
+    note: >-
+      Reversal is re-invoking the same method with the previous level; Moz documents no billing
+      consequence or cooling-off period for a downgrade.
+  - write_operation: local.account.create / local.group.create
+    description: Creates a new Moz Local Account / group.
+    reversal_operation: none published
+    window: not applicable
+    grade: none
+    note: No delete/archive method for accounts or groups appears in the 62 public methods.
+  read_only_namespaces: [data, metadata, quota, mozbar]
+cross_links:
+  errors: errors/moz-problem-types.yml
+  lifecycle: lifecycle/moz-lifecycle.yml
+  authentication: authentication/moz-authentication.yml
+  rate_limits: rate-limits/moz-rate-limits.yml
+  data_model: data-model/moz-data-model.yml

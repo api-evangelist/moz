@@ -1,0 +1,76 @@
+generated: '2026-08-26'
+method: searched
+source: https://moz.com/api/docs/guides/mcp-servers
+name: Moz MCP Servers
+status: beta
+vendor: Moz, Inc.
+description: >-
+  Moz operates two first-party remote MCP servers, split by product. Both are documented on the Moz
+  API docs site and both answered a live tools/list probe with an RFC 9728 OAuth challenge, which
+  confirms the endpoints exist and are protected rather than absent. Access is limited to account
+  owners during the beta, and each endpoint requires an active subscription to the matching product.
+deployment:
+  mode: remote
+  endpoint: https://api.moz.com/mcp/v1/data
+  auth: oauth
+  verified: probed
+  note: >-
+    Two remote endpoints are published; the primary one is recorded above and the second is listed
+    under servers[]. Moz ships no stdio/npx package - there is nothing to install locally.
+servers:
+- name: moz-mcp-v1-data
+  label: Moz Data
+  url: https://api.moz.com/mcp/v1/data
+  transport: streamable-http
+  requires: Moz Data API subscription
+  exposes: Moz Data API tools - site metrics, links, keywords, rankings
+  probe:
+    method: 'POST tools/list (jsonrpc 2.0)'
+    http_status: 401
+    body: '{"jsonrpc":"2.0","id":1,"error":{"code":-32600,"message":"Authentication required"}}'
+    www_authenticate: 'Bearer resource_metadata="https://api.moz.com/.well-known/oauth-protected-resource/mcp/v1/data"'
+    checked: '2026-08-26'
+- name: moz-mcp-v1-local
+  label: Moz Local
+  url: https://api.moz.com/mcp/v1/local
+  transport: streamable-http
+  requires: Moz Local subscription
+  exposes: Moz Local tools for managing and reporting on business locations and listings
+  probe:
+    method: 'POST tools/list (jsonrpc 2.0)'
+    http_status: 401
+    body: '{"jsonrpc":"2.0","id":1,"error":{"code":-32600,"message":"Authentication required"}}'
+    www_authenticate: 'Bearer resource_metadata="https://api.moz.com/.well-known/oauth-protected-resource/mcp/v1/local"'
+    checked: '2026-08-26'
+authentication:
+  preferred: oauth
+  oauth:
+    authorization_server: https://api.moz.com
+    metadata: https://api.moz.com/.well-known/oauth-authorization-server
+    authorization_endpoint: https://api.moz.com/oauth/authorize
+    token_endpoint: https://api.moz.com/oauth/token
+    registration_endpoint: https://api.moz.com/oauth/register
+    grant_types: [authorization_code]
+    pkce: S256
+    dynamic_client_registration: true
+    scopes: [mcp]
+  bearer:
+    header: 'Authorization: Bearer <MOZ_API_TOKEN>'
+    note: >-
+      The same Moz API key used for the JSON-RPC API works against both MCP endpoints; it is issued
+      from the Moz API dashboard at https://moz.com/api/dashboard.
+clients_documented:
+- Claude Desktop (published in the Claude connector directory as "Moz Data" and "Moz Local")
+- ChatGPT Desktop (manual server entry)
+- 'Claude Code: claude mcp add moz-mcp-v1-data https://api.moz.com/mcp/v1/data --transport http --scope user'
+tools:
+  status: gated
+  note: >-
+    tools/list requires authentication, so the live tool set and per-tool inputSchema could not be
+    read anonymously. Moz publishes no llms.txt and no public tool list, so no tool names are
+    recorded here rather than guessed. The 62 public JSON-RPC methods the servers front are
+    catalogued in json-schema/moz-api-schema.json and conventions/moz-conventions.yml.
+plans:
+  note: >-
+    Moz's API pricing page marks "MCP Access: Beta Enabled" on every paid tier from Starter ($20/mo)
+    through Enterprise; the free tier row does not carry the MCP marker.

@@ -1,0 +1,105 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  registry.npmjs.org, pypi.org, rubygems.org, packagist.org, crates.io, api.github.com/orgs/seomoz,
+  https://moz.com/api/docs
+summary: >-
+  Moz ships no maintained first-party client library for the current JSON-RPC API. Its docs give
+  cURL / Python / JavaScript snippets written against a raw HTTP client rather than an SDK, and no
+  SDK, client-library or download section exists anywhere in the API documentation. Every
+  first-party package that ever existed targets the retired Linkscape / Mozscape generation of the
+  API and has been unmaintained for a decade or more. Everything currently on npm and Packagist
+  under a "moz" name is third-party.
+official_sdk_count: 0
+package_count: 4
+packages:
+- name: linkscape
+  registry: rubygems
+  url: https://rubygems.org/gems/linkscape
+  language: Ruby
+  official: true
+  status: abandoned
+  version: 0.3.2
+  published: '2011-07-20'
+  authors: Martin Tithonium, Jeff Pollard, Bryce Howard
+  repository: https://github.com/seomoz/linkscape-gem
+  description: >-
+    Provides an interface to SEOmoz's suite of APIs, including the free and site intelligence APIs.
+  note: >-
+    Published from the seomoz GitHub org, so first-party, but the last release predates the current
+    api.moz.com JSON-RPC API by roughly fifteen years and targets the retired Linkscape API. 278,049
+    lifetime downloads. Read from rubygems.org/api/v1/gems/linkscape.json on 2026-08-26.
+- name: linkscape-py
+  registry: null
+  url: https://github.com/seomoz/linkscape-py
+  language: Python
+  official: true
+  status: abandoned
+  version: null
+  published: null
+  note: >-
+    "Python Bindings for Linkscape's API". Source-only - never published to PyPI (pypi.org/pypi/
+    linkscape, mozscape and seomoz all return 404), so there is no registry metadata endpoint to
+    read a version or date from. Last pushed 2016-09-23 per api.github.com.
+- name: moz-local-bulk-api
+  registry: null
+  url: https://github.com/seomoz/moz-local-bulk-api
+  language: null
+  official: true
+  status: abandoned
+  version: null
+  published: null
+  note: >-
+    "Moz Local API for bulk submissions" - a first-party repo with no registry distribution. Last
+    pushed 2014-12-18 per api.github.com; version is null because there is nothing published to
+    query.
+- name: SEOmozAPISamples
+  registry: null
+  url: https://github.com/seomoz/SEOmozAPISamples
+  language: Java
+  official: true
+  status: abandoned
+  version: null
+  published: null
+  note: >-
+    "Mozscape API sample code" - first-party sample code, not a distributable package, so no
+    registry version exists. 163 stars; last pushed 2018-03-13 per api.github.com.
+registries_checked:
+- registry: npm
+  query: 'moz api'
+  first_party_hits: 0
+  note: >-
+    Top matches (moz-api 1.2.6 2019-08-05, moz-api-wrapper 1.2.7 2019-10-09,
+    @jaimeflneto/n8n-nodes-moz-api 1.1.1 2025-12-04) are all third-party community wrappers, not
+    published by Moz.
+- registry: pypi
+  first_party_hits: 0
+  note: 'mozscape, moz-api, linkscape and seomoz all return 404'
+- registry: rubygems
+  first_party_hits: 1
+  note: 'linkscape (2011); seomoz and mozscape return "could not be found"'
+- registry: packagist
+  first_party_hits: 0
+  note: 'jsiebach/moz-local, vinaykevadia/mozapi, Atyantik/mozscape are all third-party'
+- registry: crates.io
+  first_party_hits: 0
+- registry: maven-central
+  first_party_hits: 0
+  note: 'no Moz-published artifact found; the Java code Moz ships is the 2018 SEOmozAPISamples repo'
+adjacent_distribution:
+- name: Moz API for Sheets
+  kind: Google Workspace add-on
+  url: https://workspace.google.com/marketplace/app/moz_api_for_sheets/1018567351793
+  registry: google-workspace-marketplace
+  version: null
+  published: null
+  official: unverified
+  note: >-
+    A Google Sheets add-on that calls the Moz API. Listed in the Workspace Marketplace; the listing
+    page renders client-side and the publisher could not be confirmed as Moz from the served HTML,
+    so it is recorded as unverified rather than claimed as first-party. The marketplace exposes no
+    version metadata endpoint, hence null.
+finding: >-
+  The abandonment signal here is unusually clean: the only first-party client library Moz ever
+  shipped to a package registry last released in 2011, and the current API documentation offers no
+  SDK at all. An integrator writes raw JSON-RPC against a single endpoint, or uses the MCP server.

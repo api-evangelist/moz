@@ -1,23 +1,184 @@
 aid: moz
 name: Moz
-description: 'Moz is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Moz is a Seattle-based search-marketing software company, founded in 2004 as SEOmoz and part of
+  Ziff Davis since 2021, whose products include Moz Pro, Moz Local, STAT and Moz Data. Its developer
+  surface is the Moz API, a JSON-RPC 2.0 API served from a single universal endpoint at
+  https://api.moz.com/jsonrpc, exposing 62 public methods across five namespaces: site metrics
+  (Domain Authority, Page Authority, Brand Authority, Spam Score), the Moz Link Index (links, linking
+  root domains, anchor text, link intersect, link status, final redirect), keyword metrics (volume,
+  difficulty, opportunity, priority, search intent, related keywords), ranking and top-page data, and
+  Moz Local location, group, account, listing-network and Google Business Profile insight management.
+  Requests are authenticated with a Moz API token in an x-moz-token header, billed against a
+  row-based monthly quota, and Moz additionally runs two beta remote MCP servers - Moz Data and Moz
+  Local - at https://api.moz.com/mcp/v1/data and https://api.moz.com/mcp/v1/local, protected by
+  OAuth 2.1 with PKCE and RFC 9728 protected-resource metadata.
 url: https://raw.githubusercontent.com/api-evangelist/moz/refs/heads/main/apis.yml
+image: https://moz.com/images/cms/Moz-OG-Image-2024.jpg
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-26'
 modified: '2026-08-26'
 tags:
+- SEO
+- Search
+- Marketing
+- Analytics
+- Keywords
+- Backlinks
+- Local Marketing
+- Domain Authority
+- Link Index
+- JSON-RPC
+- MCP
 - Company
-apis: []
+apis:
+- name: Moz API
+  description: >-
+    The Moz API is a JSON-RPC 2.0 API accessed through HTTP POST requests to a single universal
+    endpoint, https://api.moz.com/jsonrpc. The method name in the request body selects the operation.
+    62 public methods cover site metrics, the Moz Link Index, keyword metrics, ranking keywords, top
+    pages, global top domains/pages, Moz Local location and listing management, index metadata and
+    quota lookup. Authentication is a secret Moz API token supplied in the custom x-moz-token header.
+  humanURL: https://moz.com/products/api
+  baseURL: https://api.moz.com/jsonrpc
+  tags:
+  - SEO
+  - Links
+  - Keywords
+  - Site Metrics
+  - Local
+  properties:
+  - type: Documentation
+    url: https://moz.com/api/docs
+  - type: APIReference
+    url: https://moz.com/api/docs/welcome
+  - type: GettingStarted
+    url: https://moz.com/api/docs/guides/getting-started
+  - type: Authentication
+    url: authentication/moz-authentication.yml
+  - type: JSONSchema
+    url: json-schema/moz-api-schema.json
+  - type: ErrorCatalog
+    url: errors/moz-problem-types.yml
+  - type: Conventions
+    url: conventions/moz-conventions.yml
+  - type: DataModel
+    url: data-model/moz-data-model.yml
+  - type: RateLimits
+    url: rate-limits/moz-rate-limits.yml
+- name: Moz MCP Server - Data
+  description: >-
+    Beta remote Model Context Protocol server exposing Moz Data API tools (site metrics, links,
+    keywords, rankings) to LLM hosts such as Claude Desktop, ChatGPT Desktop and Claude Code.
+    Streamable HTTP transport; OAuth 2.1 sign-in inside the client, or an Authorization Bearer
+    header carrying a Moz API key. Requires a Moz Data API subscription; access is limited to
+    account owners during beta.
+  humanURL: https://moz.com/api/docs/guides/mcp-servers
+  baseURL: https://api.moz.com/mcp/v1/data
+  tags:
+  - MCP
+  - Agents
+  - SEO
+  properties:
+  - type: MCPServer
+    url: mcp/moz-mcp.yml
+  - type: Documentation
+    url: https://moz.com/api/docs/guides/mcp-servers
+  - type: OAuthScopes
+    url: scopes/moz-scopes.yml
+- name: Moz MCP Server - Local
+  description: >-
+    Beta remote Model Context Protocol server exposing Moz Local tools for managing and reporting on
+    business locations and listings. Streamable HTTP transport; OAuth 2.1 sign-in inside the client,
+    or an Authorization Bearer header carrying a Moz API key. Requires a Moz Local subscription;
+    access is limited to account owners during beta.
+  humanURL: https://moz.com/api/docs/guides/mcp-servers
+  baseURL: https://api.moz.com/mcp/v1/local
+  tags:
+  - MCP
+  - Agents
+  - Local Marketing
+  properties:
+  - type: MCPServer
+    url: mcp/moz-mcp.yml
+  - type: Documentation
+    url: https://moz.com/api/docs/guides/mcp-servers
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/moz-domain-security.yml
 - type: Website
-  url: https://forgeglobal.com/moz_stock/
+  url: https://moz.com/
+- type: DeveloperPortal
+  url: https://moz.com/products/api
+- type: Documentation
+  url: https://moz.com/api/docs
+- type: APIReference
+  url: https://moz.com/api/docs/welcome
+- type: GettingStarted
+  url: https://moz.com/api/docs/guides/getting-started
+- type: Pricing
+  url: https://moz.com/products/api/pricing
+- type: Login
+  url: https://moz.com/api/dashboard
+- type: TermsOfService
+  url: https://moz.com/terms-of-use
+- type: PrivacyPolicy
+  url: https://moz.com/privacy-policy
+- type: Support
+  url: https://moz.com/help
+- type: Community
+  url: https://moz.com/community
+- type: Blog
+  url: https://moz.com/blog
+- type: GitHubOrganization
+  url: https://github.com/seomoz
+- type: MCPServer
+  url: mcp/moz-mcp.yml
+- type: JSONSchema
+  url: json-schema/moz-api-schema.json
+- type: Authentication
+  url: authentication/moz-authentication.yml
+- type: OAuthScopes
+  url: scopes/moz-scopes.yml
+- type: ErrorCatalog
+  url: errors/moz-problem-types.yml
+- type: Conventions
+  url: conventions/moz-conventions.yml
+- type: DataModel
+  url: data-model/moz-data-model.yml
+- type: Lifecycle
+  url: lifecycle/moz-lifecycle.yml
+- type: Conformance
+  url: conformance/moz-conformance.yml
+- type: RateLimits
+  url: rate-limits/moz-rate-limits.yml
+- type: Plans
+  url: plans/moz-plans-pricing.yml
+- type: Packages
+  url: packages/moz-packages.yml
+- type: WellKnown
+  url: well-known/moz-well-known.yml
+- type: SecurityTxt
+  url: well-known/moz-security.txt
+- type: Security
+  url: security/moz-vulnerability-disclosure.yml
+- type: LLMsTxt
+  url: llms/moz-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Examples
+  url: examples/moz-examples.yml
+- type: VulnerabilityDisclosure
+  url: security/moz-vulnerability-disclosure.yml
+x-enrichment:
+  date: '2026-08-26'
+  status: enriched
+  artifacts_added: 27
+  pass: local-v1

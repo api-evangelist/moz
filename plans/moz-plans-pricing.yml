@@ -1,0 +1,93 @@
+generated: '2026-08-26'
+method: searched
+source: https://moz.com/products/api/pricing
+currency: USD
+billing_period: monthly
+unit: rows of data returned per month
+plan_count: 7
+note: >-
+  Moz API access is a subscription separate from Moz Pro. Every tier is published with a price, a
+  row allowance, an overage rate and a beta-quota bonus, and every paid tier is marked "MCP Access:
+  Beta Enabled". Values below are read verbatim from Moz's own pricing page on 2026-08-26.
+plans:
+- name: Free
+  price: 0
+  rows_per_month: 50
+  overage: none
+  beta_rows_per_month: 0
+  mcp_access: false
+  limits:
+    request_rate: 1 request every 10 seconds
+  requirements: A valid, non-expired credit card is required; it is not charged unless upgraded.
+- name: Starter (Medium)
+  price: 20
+  rows_per_month: 3000
+  overage: not available
+  beta_rows_per_month: 150
+  mcp_access: beta enabled
+  positioning: Perfect for research or integrating into your reporting suite.
+- name: Starter (Large)
+  price: 75
+  rows_per_month: 15000
+  overage: $5 per 1,000 rows
+  beta_rows_per_month: 750
+  mcp_access: beta enabled
+- name: Growth (Small)
+  price: 125
+  rows_per_month: 50000
+  overage: $25 per 10,000 rows
+  beta_rows_per_month: 3500
+  mcp_access: beta enabled
+  positioning: Provides the scale and flexibility that a growing business needs.
+- name: Growth (Medium)
+  price: 250
+  rows_per_month: 120000
+  overage: $20 per 10,000 rows
+  beta_rows_per_month: 8400
+  mcp_access: beta enabled
+- name: Growth (Large)
+  price: 500
+  rows_per_month: 500000
+  overage: $10 per 10,000 rows
+  beta_rows_per_month: 35000
+  mcp_access: beta enabled
+- name: Advanced
+  price: 2000
+  rows_per_month: 4000000
+  overage: $5 per 10,000 rows
+  beta_rows_per_month: 400000
+  mcp_access: beta enabled
+  positioning: Ideal for building custom tools and dashboards for your clients at scale.
+enterprise:
+  name: Enterprise
+  price: from 10000
+  rows_per_month: over 4 million (custom)
+  billing: Custom volume and terms; get a quote
+  includes:
+  - Dedicated account manager
+  - Customized volume pricing
+  - 'MCP Access: Beta Enabled'
+  contact: https://moz.com/products/api/pricing
+included_on_all_plans:
+- URL Metrics
+- Links
+- Brand Authority
+- Link Intersect
+- Linking Root Domains
+- Link Status
+- Anchor Text
+- Final Redirect
+- Top Pages
+- Global Top Pages
+- Global Top Root Domains
+- Index Metadata
+- Usage Data
+- Keyword Metrics
+- Keyword Suggestions
+- Search Intent
+- Ranking Keywords
+beta_access:
+  requirement: Starter Medium plan and above
+  terms: >-
+    Beta methods are subject to change or removal without notice, and data or functionality accessed
+    through them may only be used for prototyping or internal business services.

@@ -64,5 +64,8 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Moz is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/moz_stock/
+Moz is a Seattle-based search-marketing software company, founded in 2004 as SEOmoz and part of Ziff Davis since 2021, whose products include Moz Pro, Moz Local, STAT and Moz Data. Its developer surface is the Moz API, a JSON-RPC 2.0 API served from a single universal endpoint at https://api.moz.com/jsonrpc, exposing 62 public methods across site metrics, the Moz Link Index, keyword metrics, ranking data and Moz Local location management. Moz additionally runs two beta remote MCP servers, Moz Data and Moz Local.
+
+- https://moz.com/
+- https://moz.com/products/api
+- https://moz.com/api/docs
