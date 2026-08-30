@@ -1,0 +1,14 @@
+{
+  "repo": "moz",
+  "feeds": [
+    {
+      "source": "https://moz.com/community",
+      "feed_url": "https://moz.com/feeds/blog.rss",
+      "title": "",
+      "saved": 2,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 2,
+  "fetched": "2026-08-30T22:33:40Z"
+}
