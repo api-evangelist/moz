@@ -1,0 +1,27 @@
+# Front Door AI Index — moz — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: moz
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: moz.com
+  final_host: moz.com
+  ownership: own
+  owner: moz
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 25
+  host_score: 25
+  density: 9.3
+  words: 2688
+  tiers:
+    agentic: 0
+    core: 24
+    model: 1
+  ambiguous: 0
+  top_terms:
+    AI: 21
+    LLMs: 3
+    Gemini: 1

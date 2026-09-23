@@ -1,0 +1,1 @@
+{"resource":"https://api.moz.com/mcp/v1/data","authorization_servers":["https://api.moz.com"],"scopes_supported":["mcp"],"bearer_methods_supported":["header"]}
