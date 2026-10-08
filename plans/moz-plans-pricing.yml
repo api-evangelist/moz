@@ -91,3 +91,53 @@ beta_access:
   terms: >-
     Beta methods are subject to change or removal without notice, and data or functionality accessed
     through them may only be used for prototyping or internal business services.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - metered
+  units: []
+  plans:
+  - name: Free
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
+  - name: Starter (Medium)
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods: []
+  - name: Starter (Large)
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods: []
+  - name: Growth (Small)
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods: []
+  - name: Growth (Medium)
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods: []
+  - name: Growth (Large)
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods: []
+  - name: Advanced
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods: []
