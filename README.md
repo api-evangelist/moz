@@ -64,8 +64,129 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Moz is a Seattle-based search-marketing software company, founded in 2004 as SEOmoz and part of Ziff Davis since 2021, whose products include Moz Pro, Moz Local, STAT and Moz Data. Its developer surface is the Moz API, a JSON-RPC 2.0 API served from a single universal endpoint at https://api.moz.com/jsonrpc, exposing 62 public methods across site metrics, the Moz Link Index, keyword metrics, ranking data and Moz Local location management. Moz additionally runs two beta remote MCP servers, Moz Data and Moz Local.
+Moz is a Seattle-based search-marketing software company, founded in 2004 as SEOmoz and part of Ziff Davis since 2021, whose products include Moz Pro, Moz Local, STAT and Moz Data. Its developer surface is the Moz API, a JSON-RPC 2.0 API served from a single universal endpoint at https://api.moz.com/jsonrpc, exposing 62 public methods across five namespaces: site metrics (Domain Authority, Page Authority, Brand Authority, Spam Score), the Moz Link Index (links, linking root domains, anchor text, link intersect, link status, final redirect), keyword metrics (volume, difficulty, opportunity, priority, search intent, related keywords), ranking and top-page data, and Moz Local location, group, account, listing-network and Google Business Profile insight management. Requests are authenticated with a Moz API token in an x-moz-token header, billed against a row-based monthly quota, and Moz additionally runs two beta remote MCP servers - Moz Data and Moz Local - at https://api.moz.com/mcp/v1/data and https://api.moz.com/mcp/v1/local, protected by OAuth 2.1 with PKCE and RFC 9728 protected-resource metadata.
 
-- https://moz.com/
-- https://moz.com/products/api
-- https://moz.com/api/docs
+**Areas:** SEO · Search · Marketing · Analytics · Keywords · Backlinks · Local Marketing · Domain Authority · Link Index · JSON-RPC · MCP · Company
+
+## Moz on APIs.io
+
+Everything profiled for Moz is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/moz/](https://apis.io/providers/moz/)** — or go straight to one of the APIs or properties below.
+
+### APIs (3)
+
+- [Moz API](https://apis.io/apis/moz/moz-api/) — The Moz API is a JSON-RPC 2.0 API accessed through HTTP POST requests to a single universal endpoint, https://api.moz.com/jsonrpc. The method name in the…
+- [Moz MCP Server - Data](https://apis.io/apis/moz/moz-mcp-server-data/) — Beta remote Model Context Protocol server exposing Moz Data API tools (site metrics, links, keywords, rankings) to LLM hosts such as Claude Desktop, ChatGPT…
+- [Moz MCP Server - Local](https://apis.io/apis/moz/moz-mcp-server-local/) — Beta remote Model Context Protocol server exposing Moz Local tools for managing and reporting on business locations and listings. Streamable HTTP transport;…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [Moz MCP Servers](https://apis.io/servers/moz/moz-mcp-servers/)
+
+#### JSON Schema (1)
+
+The data models the API reads and writes.
+
+- [Moz Api](https://apis.io/schemas/moz/moz-api/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Moz Authentication](https://apis.io/security/moz/moz-authentication/)
+- [Moz Domain Security](https://apis.io/security/moz/moz-domain-security/)
+- [Moz Trust Center](https://apis.io/security/moz/moz-trust-center/)
+- [Moz Vulnerability Disclosure](https://apis.io/security/moz/moz-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Moz Scopes](https://apis.io/scopes/moz/moz-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Moz Plans Pricing](https://apis.io/plans/moz/moz-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Moz Rate Limits](https://apis.io/rate-limits/moz/moz-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://moz.com/)
+- [Documentation](https://moz.com/api/docs)
+- [Getting started](https://moz.com/api/docs/guides/getting-started)
+- [API reference](https://moz.com/api/docs/welcome)
+- [Pricing](https://moz.com/products/api/pricing)
+- [Support](https://moz.com/help)
+- [Blog](https://moz.com/blog)
+- [Terms of service](https://moz.com/terms-of-use)
+- [Privacy policy](https://moz.com/privacy-policy)
+- [GitHub](https://github.com/seomoz)
+
+## API Evangelist rating
+
+**Kin Score 46.9** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.3 |
+| Contract quality | 13.7 |
+| Contract governance | 18.2 |
+| Operational transparency | 34.2 |
+| Developer ergonomics | 58.9 |
+| Access clarity | 69.7 |
+
+**Agent readiness 34.9** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 40.2** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/moz/](https://apis.io/providers/moz/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Moz: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/moz/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
